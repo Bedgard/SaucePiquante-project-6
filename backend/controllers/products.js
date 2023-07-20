@@ -9,8 +9,12 @@ exports.createSauce = (req, res, next) => {
     //creation un nouveau schéma pour les sauces
     const newSauce = new Sauce({
         ...sauceObject,
-        imageUrl: `${req.protocol}.//${req.get('host')}/images/${req.file.filename}` //création URL pour l'image
+        imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
+
     });
+
+    console.log("verification", newSauce)
+
 
     //enregistrement du produit dans la base de données
     newSauce.save()
@@ -40,15 +44,15 @@ exports.getOneSauce = (req, res, next) => {
 };
 
 
-//fonction pour modifier une seule sauce
-exports.modifyOneSauce = (req, res, next) => {
+// //fonction pour modifier une seule sauce
+// exports.modifyOneSauce = (req, res, next) => {
 
-}
+// }
 
-//fonction pour supprimer une seule sauce 
-exports.deleteOneSauce = (req, res, next) => {
+// //fonction pour supprimer une seule sauce 
+// exports.deleteOneSauce = (req, res, next) => {
 
-}
+// }
 
 
 
