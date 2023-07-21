@@ -12,23 +12,19 @@ const authentifcation = require("../middleware/auth")
 const multer = require("../middleware/multer");
 
 //importer le controlleurs sauce
-const ctrlProducts = require("../controllers/products")
+const ctrlProducts = require("../controllers/products");
 
 //creation des routes pour le CRUD
 
 //CREATE
 router.post('/', authentifcation, multer, ctrlProducts.createSauce);
-
 //READ
 router.get("/", authentifcation, ctrlProducts.getAllSauces);
 router.get("/:id", authentifcation, ctrlProducts.getOneSauce);
-
-
 //UPDATE
-router.put('/:id', authentifcation,);
-
+router.put('/:id', authentifcation, multer, ctrlProducts.modifyOneSauce);
 //DELETE
-router.delete('/:id', authentifcation,);
+router.delete('/:id', authentifcation, ctrlProducts.deleteOneSauce);
 
 //CREATION DE LA ROUTE POUR LES LIKE
 router.post("/:id/like",)

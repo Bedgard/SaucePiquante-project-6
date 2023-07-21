@@ -1,6 +1,9 @@
 //importation du modele products
 const Sauce = require('../models/Products');
 
+//importation du paquet fs qui permet de supprimer des fichiers
+const fs = require("fs");
+
 //fonction pour créer les sauces
 exports.createSauce = (req, res, next) => {
     const sauceObject = JSON.parse(req.body.sauce);
@@ -12,9 +15,6 @@ exports.createSauce = (req, res, next) => {
         imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
 
     });
-
-    console.log("verification", newSauce)
-
 
     //enregistrement du produit dans la base de données
     newSauce.save()
@@ -33,26 +33,41 @@ exports.getAllSauces = (req, res, next) => {
         .catch(error => { res.status(400).json({ error }) })
 };
 
-//fonction pour afficher un seul sauce 
+// fonction pour afficher un seul sauce 
 exports.getOneSauce = (req, res, next) => {
-    const _id = req.params.id //récupération de l'id du sauce
-
-    Sauce.findOne({ _id }) //récupération de l'id selectionné dans la base de données 
-
+    Sauce.findOne({ _id: req.params.id }) //récupérer la sauce correspondante à l'id dans la base de données
         .then((sauce) => res.status(200).json(sauce))
         .catch((error) => { res.status(404).json({ error }) })
 };
 
-
 // //fonction pour modifier une seule sauce
-// exports.modifyOneSauce = (req, res, next) => {
+exports.modifyOneSauce = (req, res, next) => {
+    //nous faisons une condition ternaire
+    const sauceObject = req.file ? { // si la condition est vraie notre requête contient un fichier 
+        ...JSON.parse(req.body.sauce), // nous parsons la requête
+        imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}` //nous récupérons l'image modifiée
+    } : { ...req.body } //sinon nous récupérons seulement le corps de la requête sans modification de l'image
 
-// }
+    // récuperation de la sauce dans la base de données et modification de celle-ci
+    Sauce.updateOne({ _id: req.params.id }, { ...sauceObject, _id: req.params.id })
+        .then(() => res.status(200).json({ message: "Objet modifié !" }))
+        .catch((error) => res.status(400).json({ error }));
+};
 
 // //fonction pour supprimer une seule sauce 
-// exports.deleteOneSauce = (req, res, next) => {
+exports.deleteOneSauce = (req, res, next) => {
+    Sauce.findOne({ _id: req.params.id }) //selectionner le produit dans la base de données en fonction de l'id 
+        .then(sauce => {
+            const filename = sauce.imageUrl.split('/images/')[1];
+            fs.unlink(`images/${filename}`, () => { // suppression de l'image correspondant à l'id dans la base de données
+                Sauce.deleteOne({ _id: req.params.id }) // suppreession des caractéristiques produits dans la base de données
+                    .then(() => res.status(200).json({ message: "Objet supprimé!" }))
+                    .catch(error => res.status(401).json({ error }))
+            });
+        })
+        .catch(error => res.status(500).json({ error }))
+}
 
-// }
 
 
 
