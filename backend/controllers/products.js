@@ -48,25 +48,44 @@ exports.modifyOneSauce = (req, res, next) => {
     } : { ...req.body } //sinon nous récupérons seulement le corps de la requête sans modification de l'image
 
     // récuperation de la sauce dans la base de données et modification de celle-ci
-    Sauce.updateOne({ _id: req.params.id }, { ...sauceObject, _id: req.params.id })
-        .then(() => res.status(200).json({ message: "Objet modifié !" }))
-        .catch((error) => res.status(400).json({ error }));
+    Sauce.findOne({ _id: req.params.id })
+        .then((sauce) => {
+            if (sauce.userId !== req.auth.userId) {
+                res.status(401).json({ message: "non-authorisé" })
+            }
+
+            else {
+                Sauce.updateOne({ _id: req.params.id }, { ...sauceObject, _id: req.params.id })
+                    .then(() => res.status(200).json({ message: "Objet modifié !" }))
+                    .catch((error) => res.status(400).json({ error }));
+            }
+        })
+        .catch((error) => {
+            res.status(400).json({ error });
+        });
+
 };
+
 
 // //fonction pour supprimer une seule sauce 
 exports.deleteOneSauce = (req, res, next) => {
     Sauce.findOne({ _id: req.params.id }) //selectionner le produit dans la base de données en fonction de l'id 
         .then(sauce => {
-            const filename = sauce.imageUrl.split('/images/')[1]; //selection de l'image à supprimer en la
-            fs.unlink(`images/${filename}`, () => { // suppression de l'image correspondant à l'id dans la base de données
-                Sauce.deleteOne({ _id: req.params.id }) // suppreession des caractéristiques produits dans la base de données
-                    .then(() => res.status(200).json({ message: "Objet supprimé!" }))
-                    .catch(error => res.status(401).json({ error }))
-            });
+            if (sauce.userId !== req.auth.userId) {
+                res.status(401).json({ message: "Non-authorisé" })
+            }
+
+            else {
+                const filename = sauce.imageUrl.split('/images/')[1]; //selection de l'image à supprimer en la
+                fs.unlink(`images/${filename}`, () => { // suppression de l'image correspondant à l'id dans la base de données
+                    Sauce.deleteOne({ _id: req.params.id }) // suppreession des caractéristiques produits dans la base de données
+                        .then(() => res.status(200).json({ message: "Objet supprimé!" }))
+                        .catch(error => res.status(401).json({ error }))
+                })
+            };
         })
+
+
         .catch(error => res.status(500).json({ error }))
 }
-
-
-
 
