@@ -13,7 +13,6 @@ exports.createSauce = (req, res, next) => {
     const newSauce = new Sauce({
         ...sauceObject,
         imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
-
     });
 
     //enregistrement du produit dans la base de données
@@ -45,7 +44,7 @@ exports.modifyOneSauce = (req, res, next) => {
     //nous faisons une condition ternaire
     const sauceObject = req.file ? { // si la condition est vraie notre requête contient un fichier 
         ...JSON.parse(req.body.sauce), // nous parsons la requête
-        imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}` //nous récupérons l'image modifiée
+        imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`, //nous récupérons l'image modifiée
     } : { ...req.body } //sinon nous récupérons seulement le corps de la requête sans modification de l'image
 
     // récuperation de la sauce dans la base de données et modification de celle-ci
@@ -58,7 +57,7 @@ exports.modifyOneSauce = (req, res, next) => {
 exports.deleteOneSauce = (req, res, next) => {
     Sauce.findOne({ _id: req.params.id }) //selectionner le produit dans la base de données en fonction de l'id 
         .then(sauce => {
-            const filename = sauce.imageUrl.split('/images/')[1];
+            const filename = sauce.imageUrl.split('/images/')[1]; //selection de l'image à supprimer en la
             fs.unlink(`images/${filename}`, () => { // suppression de l'image correspondant à l'id dans la base de données
                 Sauce.deleteOne({ _id: req.params.id }) // suppreession des caractéristiques produits dans la base de données
                     .then(() => res.status(200).json({ message: "Objet supprimé!" }))
