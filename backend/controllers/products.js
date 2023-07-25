@@ -50,7 +50,7 @@ exports.modifyOneSauce = (req, res, next) => {
     // récuperation de la sauce dans la base de données et modification de celle-ci
     Sauce.findOne({ _id: req.params.id })
         .then((sauce) => {
-            if (sauce.userId !== req.auth.userId) {
+            if (sauce.userId !== req.auth.userId) { //vérifier que je suis bien le propriétaire de la sauce
                 res.status(401).json({ message: "non-authorisé" })
             }
 
@@ -66,12 +66,11 @@ exports.modifyOneSauce = (req, res, next) => {
 
 };
 
-
 // //fonction pour supprimer une seule sauce 
 exports.deleteOneSauce = (req, res, next) => {
     Sauce.findOne({ _id: req.params.id }) //selectionner le produit dans la base de données en fonction de l'id 
         .then(sauce => {
-            if (sauce.userId !== req.auth.userId) {
+            if (sauce.userId !== req.auth.userId) { // vérifier que je suis bien le propriétaire de la sauce
                 res.status(401).json({ message: "Non-authorisé" })
             }
 

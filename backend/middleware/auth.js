@@ -17,8 +17,11 @@ module.exports = (req, res, next) => {
             throw "User ID n'est pas valide"
 
         } else {
-            next()
-        }
+            req.auth = {
+                userId: userId
+            }
+        };
+        next()
 
     } catch (error) {
         res.status(401).json({ error })
