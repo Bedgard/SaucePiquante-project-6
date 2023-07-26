@@ -59,20 +59,20 @@ exports.likeDislike = (req, res, next) => {
 
     //pour décrémenter un like ou un dislike et supprimer l'userId
     if (like === 0) {
-        Sauce.findOne({ _id: sauceId })
+        Sauce.findOne({ _id: sauceId }) //récupération de la sauce à modifier
             .then(sauce => {
                 if (sauce.usersLiked.includes(userId)) { //si la base de données contient déjà un userId
                     Sauce.updateOne({
-                        _id: sauceId
+                        _id: sauceId //modification de la sauce
                     }),
 
                         {
                             $pull: {
-                                usersLiked: userId //supprimer l'userId
+                                usersLiked: userId //supprimer l'userId de la sauce selectionnée
                             },
 
                             $inc: {
-                                likes: -1 //décrémenter de 1
+                                likes: -1 //décrémenter de 1 de la sauce selectionnée
                             }
 
                         }
