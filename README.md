@@ -1,8 +1,7 @@
 # SaucePiquante — Secure API for a Gourmet Sauce Review Application
 
-![MongoDB Logo](https://webassets.mongodb.com/_com_assets/cms/mongodb-logo-rgb-j6w271g1xn.jpg)
-![Express.js Logo](https://upload.wikimedia.org/wikipedia/commons/6/64/Expressjs.png)
-
+<img src="https://webassets.mongodb.com/_com_assets/cms/mongodb-logo-rgb-j6w271g1xn.jpg" alt="MongoDB Logo" width="300" />
+<img src="https://upload.wikimedia.org/wikipedia/commons/6/64/Expressjs.png" alt="Express.js Logo" width="300" />
 
 ## Project Overview
 
