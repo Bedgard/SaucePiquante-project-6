@@ -64,7 +64,9 @@ The company now wants to develop an evaluation application for its hot sauces ca
 **1.Create a folder for the project and navigate into it:**
 
 (Here, `project-folder` is an example name — feel free to rename it as you like.)
+
 mkdir project-folder
+
 cd project-folder
 
 **2. Clone the backend repository into your project folder :**
