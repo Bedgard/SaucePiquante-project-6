@@ -62,37 +62,41 @@ The company now wants to develop an evaluation application for its hot sauces ca
 
 ### Installation
 
-1.Create a folder for the project and navigate into it:
+**1.Create a folder for the project and navigate into it:**
 
-   (Here, `project-folder` is an example name — feel free to rename it as you like.)
-   mkdir project-folder
-   cd project-folder
+(Here, `project-folder` is an example name — feel free to rename it as you like.)
+mkdir project-folder
+cd project-folder
 
-2. Clone the backend repository into your project folder :
+**2. Clone the backend repository into your project folder :**
+
 git clone https://github.com/StephaneChimy/projet-6.git
 
 This will create a folder named projet-6 inside your project folder.
 
-3. Clone and install the frontend repository, then start it
+**3. Clone and install the frontend repository, then start it**
 
-git clone https://github.com/OpenClassrooms-Student-Center/dwj-projet6.git
+git clone https://github.com/Bedgard/SaucePiquante-project-6.git
+
 cd dwj-projet6
 npm install --save node-sass@4.14.1
 ng serve
 
 The frontend application will run on port 4200.
 
-4. Navigate back to the backend folder and install dependencies_
+**4. Navigate back to the backend folder and install dependencies**
 
 cd ../projet-6/backend
 npm install
 
-5. Start the backend server
+**5. Start the backend server**
+
 npm start
 
 The backend server will run on port 3000.
 
-6. Open your browser and visit
+**6. Open your browser and visit**
+
 http://localhost:4200/ to start interacting with the app.
 
 
